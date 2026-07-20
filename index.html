@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repositorio de Reportes — Gemco Medical Solutions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: #f5f4f0;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    /* ── Header ──────────────────────────────────────────── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #1a4f8a;
+      padding: 0 2rem;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    }
+    .logo {
+      height: 50px;
+      width: auto;
+    }
+    .logo-fallback {
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .header-sep {
+      width: 1px;
+      height: 28px;
+      background: rgba(255, 255, 255, 0.3);
+    }
+    .header-title {
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Hero ────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(160deg, #1e5799 0%, #0e2f56 100%);
+      color: #fff;
+      padding: 3.5rem 2rem 3rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(0,0,0,0.15);
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 0.75rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin-bottom: 2rem;
+      line-height: 1.15;
+    }
+    .stats {
+      display: inline-flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .stat {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 6px;
+      padding: 0.45rem 1.1rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .stat-num {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+    .stat-label {
+      opacity: 0.75;
+      font-weight: 500;
+    }
+
+    /* ── Toolbar ─────────────────────────────────────────── */
+    .toolbar {
+      background: #fff;
+      border-bottom: 1px solid #e5e3de;
+      padding: 0.9rem 2rem;
+      display: flex;
+      gap: 0.65rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .toolbar input,
+    .toolbar select {
+      font-family: inherit;
+      font-size: 0.88rem;
+      padding: 0.5rem 0.85rem;
+      border: 1px solid #d5d3ce;
+      border-radius: 8px;
+      outline: none;
+      background: #fafaf8;
+      color: #1a1a1a;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .toolbar input {
+      flex: 1;
+      min-width: 200px;
+    }
+    .toolbar input:focus,
+    .toolbar select:focus {
+      border-color: #1a4f8a;
+      box-shadow: 0 0 0 3px rgba(26, 79, 138, 0.12);
+    }
+    .toolbar select {
+      cursor: pointer;
+    }
+    .filter-count {
+      margin-left: auto;
+      font-size: 0.8rem;
+      color: #999;
+    }
+
+    /* ── Grid ────────────────────────────────────────────── */
+    .grid-wrapper {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.25rem;
+    }
+    .no-results {
+      display: none;
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #999;
+      font-size: 1rem;
+      grid-column: 1 / -1;
+    }
+
+    /* ── Card ────────────────────────────────────────────── */
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 1.35rem;
+      box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.06),
+        0 4px 16px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .card:hover {
+      box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        0 10px 28px rgba(0, 0, 0, 0.08);
+      transform: translateY(-3px);
+    }
+    .card.hidden {
+      display: none;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      flex: 1;
+    }
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 10px;
+      white-space: nowrap;
+      letter-spacing: 0.01em;
+    }
+    .badge-empty {
+      background: #f0f0f0;
+      color: #999;
+    }
+    .chip {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      letter-spacing: 0.01em;
+    }
+    .chip-empty {
+      background: #f0f0f0;
+      color: #999;
+    }
+
+    .card-name {
+      font-size: 0.975rem;
+      font-weight: 600;
+      color: #111;
+      line-height: 1.35;
+    }
+    .card-desc {
+      font-size: 0.83rem;
+      color: #5a5a5a;
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .card-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      padding-top: 0.2rem;
+      border-top: 1px solid #f0efec;
+    }
+    .meta-row {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+    }
+    .meta-label {
+      color: #aaa;
+      min-width: 130px;
+    }
+    .meta-val {
+      font-weight: 500;
+      color: #444;
+    }
+
+    .btn-open {
+      display: block;
+      text-align: center;
+      background: #1a4f8a;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.55rem 1rem;
+      border-radius: 9px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      transition: background 0.15s;
+      margin-top: 0.2rem;
+    }
+    .btn-open:hover {
+      background: #0e2f56;
+    }
+    .btn-disabled {
+      background: #e8e8e8;
+      color: #bbb;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    /* ── Footer ──────────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      color: #aaa;
+      font-size: 0.78rem;
+      border-top: 1px solid #e5e3de;
+    }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .header {
+        padding: 0 1rem;
+        height: 62px;
+      }
+      .logo {
+        height: 40px;
+      }
+      .hero {
+        padding: 2.5rem 1.25rem 2rem;
+      }
+      .toolbar {
+        padding: 0.75rem 1rem;
+      }
+      .toolbar input {
+        min-width: 160px;
+      }
+      .grid-wrapper {
+        padding: 1.25rem 1rem;
+      }
+      .grid {
+        gap: 1rem;
+      }
+      .filter-count {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <img src="data:image/png;base64,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" alt="Gemco Medical Solutions" class="logo">
+  <div class="header-sep"></div>
+  <span class="header-title">Repositorio de Reportes &middot; Gemco Medical</span>
+</header>
+
+<section class="hero">
+  <span class="hero-eyebrow">Gemco Medical Solutions</span>
+  <h1>Repositorio de Reportes</h1>
+  <div class="stats">
+    <span class="stat"><span class="stat-num">10</span><span class="stat-label">Reportes</span></span>
+    <span class="stat"><span class="stat-num">10</span><span class="stat-label">Activos</span></span>
+    <span class="stat"><span class="stat-num">0</span><span class="stat-label">En revisión</span></span>
+    <span class="stat"><span class="stat-num">7</span><span class="stat-label">Fuentes</span></span>
+  </div>
+</section>
+
+<div class="toolbar">
+  <input type="text" id="search" placeholder="🔍  Buscar reporte o descripción..." oninput="applyFilter()">
+  <select id="sel-fuente" onchange="applyFilter()">
+    <option value="">Todas las fuentes</option>
+    <option value="falconsoft">Falconsoft</option>
+        <option value="inventario">Inventario</option>
+        <option value="mercado público">Mercado Público</option>
+        <option value="penta transaction">PENTA Transaction</option>
+        <option value="pipeline">Pipeline</option>
+        <option value="sap">SAP</option>
+        <option value="salesforce">SalesForce</option>
+  </select>
+  <select id="sel-estado" onchange="applyFilter()">
+    <option value="">Todos los estados</option>
+    <option value="activo">Activo</option>
+  </select>
+  <span class="filter-count" id="filter-count">10 de 10 reportes</span>
+</div>
+
+<div class="grid-wrapper">
+  <div class="grid" id="grid">
+  <div class="card" data-fuentes="sap;salesforce;pipeline;inventario" data-estado="activo" data-search="reporte comercial monitoreo de facturación, desempeño de ventas con ppto, detalle de ts (servicio técnico), pipeline e inventario.">
+    <div class="card-top">
+      <div class="badges"><span class="badge" style="background:#e4eef8;color:#1a4080">SAP</span><span class="badge" style="background:#e3f5ee;color:#1a5c3a">SalesForce</span><span class="badge" style="background:#fce9f2;color:#7a1f50">Pipeline</span><span class="badge" style="background:#eaf5e4;color:#2a5c1a">Inventario</span></div>
+      <span class="chip" style="background:#e4f2eb;color:#1a6b47">Activo</span>
+    </div>
+    <h3 class="card-name">Reporte Comercial</h3>
+    <p class="card-desc">Monitoreo de facturación, desempeño de ventas con PPTO, detalle de TS (Servicio Técnico), pipeline e inventario.</p>
+    <div class="card-meta">
+      <div class="meta-row">
+        <span class="meta-label">Frecuencia</span>
+        <span class="meta-val">Semanal</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Última actualización</span>
+        <span class="meta-val">05/06/2026</span>
+      </div>
+    </div>
+    <a class="btn-open" href="https://app.powerbi.com/view?r=eyJrIjoiZjk3NTMzMzItZjZjZC00NTU3LTg4MDgtYTVhMDNmY2EyYzdiIiwidCI6IjYxMzI5NWZkLTQzN2MtNDlhNi05YTM4LTMwN2I3YmM2ZmE1MiJ9&amp;pageName=89791cd0dab350c98802" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
+  </div>
+  <div class="card" data-fuentes="mercado público" data-estado="activo" data-search="desempeño vendedores evaluación del desempeño de los ejecutivos en procesos licitatorios medido a través de indicadores clave de rendimiento (kpi).">
+    <div class="card-top">
+      <div class="badges"><span class="badge" style="background:#fdf3e3;color:#7a4b0a">Mercado Público</span></div>
+      <span class="chip" style="background:#e4f2eb;color:#1a6b47">Activo</span>
+    </div>
+    <h3 class="card-name">Desempeño Vendedores</h3>
+    <p class="card-desc">Evaluación del desempeño de los ejecutivos en procesos licitatorios medido a través de indicadores clave de rendimiento (KPI).</p>
+    <div class="card-meta">
+      <div class="meta-row">
+        <span class="meta-label">Frecuencia</span>
+        <span class="meta-val">Mensual</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Última actualización</span>
+        <span class="meta-val">01/06/2026</span>
+      </div>
+    </div>
+    <a class="btn-open" href="https://app.powerbi.com/view?r=eyJrIjoiY2EyY2E4MzItM2VlYS00NTI2LWE1NjYtNGRjY2YzNTNiNDYzIiwidCI6IjYxMzI5NWZkLTQzN2MtNDlhNi05YTM4LTMwN2I3YmM2ZmE1MiJ9" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
+  </div>
+  <div class="card" data-fuentes="falconsoft" data-estado="activo" data-search="contratos incardia registro de todos los contratos de la competencia de incardia con el objetivo de realizar un seguimiento oportuno de los clientes que deben ser visitados y de los insumos respecto de los cuales podrían levantarse futuras licitaciones.">
+    <div class="card-top">
+      <div class="badges"><span class="badge" style="background:#e3f3f8;color:#1a5c6a">Falconsoft</span></div>
+      <span class="chip" style="background:#e4f2eb;color:#1a6b47">Activo</span>
+    </div>
+    <h3 class="card-name">Contratos Incardia</h3>
+    <p class="card-desc">Registro de todos los contratos de la competencia de Incardia con el objetivo de realizar un seguimiento oportuno de los clientes que deben ser visitados y de los insumos respecto de los cuales podrían levantarse futuras licitaciones.</p>
+    <div class="card-meta">
+      <div class="meta-row">
+        <span class="meta-label">Frecuencia</span>
+        <span class="meta-val">Trimestral</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Última actualización</span>
+        <span class="meta-val">08/06/2026</span>
+      </div>
+    </div>
+    <a class="btn-open" href="panel_contratos_incardia.html" target="_blank" rel="noopener noreferrer">Abrir reporte ↗</a>
+  </div>
+  <div class="card" data-fuentes="mercado público" data-estado="activo" data-search="análisis competidores análisis de todas las oc por línea de negocio, con especificación por producto y cálculo del tamaño del mercado.">
+    <div class="card-top">
+      <div class="badges"><span class="badge" style="background:#fdf3e3;color:#7a4b0a">Mercado Público</span></div>
+      <span class="chip" style="background:#e4f2eb;color:#1a6b47">Activo</span>
+    </div>
+    <h3 class="card-name">Análisis Competidores</h3>
+    <p class="card-desc">Análisis de todas las OC por línea de negocio, con especificación por producto y cálculo del tamaño del mercado.</p>
+    <div class="card-meta">
+      <div class="meta-row">
+        <span class="meta-label">Frecuencia</span>
+        <span class="meta-val">—</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Última actualización</span>
+        <span class="meta-val">12/06/2026</span>
+      </div>
+    </div>
+    <a class="btn-open" href="https://app.powerbi.com/view?r=eyJrIjoiNzI4MDgxNzktYTcxNi00YTAzLWI5YjctY2Y3ZDMzNzMyNjAyIiwidCI6IjYxMzI5NWZkLTQzN2MtNDlhNi05YTM4LTMwN2I3YmM2ZmE1MiJ9" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
+  </div>
+  <div class="card" data-fuentes="mercado público" data-estado="activo" data-search="desempeño compras ágiles evaluación del desempeño de los ejecutivos en el módulo de compras ágiles (tasas de participación, tiempos de respuesta, etc.).">
+    <div class="card-top">
+      <div class="badges"><span class="badge" style="background:#fdf3e3;color:#7a4b0a">Mercado Público</span></div>
+      <span class="chip" style="background:#e4f2eb;color:#1a6b47">Activo</span>
+    </div>
+    <h3 class="card-name">Desempeño Compras Ágiles</h3>
+    <p class="card-desc">Evaluación del desempeño de los ejecutivos en el módulo de Compras Ágiles (tasas de participación, tiempos de respuesta, etc.).</p>
+    <div class="card-meta">
+      <div class="meta-row">
+        <span class="meta-label">Frecuencia</span>
+        <span class="meta-val">—</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Última actualización</span>
+        <span class="meta-val">01/04/2026</span>
+      </div>
+    </div>
+    <a class="btn-open" href="https://app.powerbi.com/view?r=eyJrIjoiZTM5YjM2NDctN2NiNS00MjY0LWE2MDktNmJmNzU1NTU0ZDgxIiwidCI6IjYxMzI5NWZkLTQzN2MtNDlhNi05YTM4LTMwN2I3YmM2ZmE1MiJ9" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
+  </div>
+  <div class="card" data-fuentes="sap" data-estado="activo" data-search="facturaciones por línea de negocio desglose de la facturación estructurado por línea de negocio y tipo de producto.">
+    <div class="card-top">
+      <div class="badges"><span class="badge" style="background:#e4eef8;color:#1a4080">SAP</span></div>
+      <span class="chip" style="background:#e4f2eb;color:#1a6b47">Activo</span>
+    </div>
+    <h3 class="card-name">Facturaciones por Línea de Negocio</h3>
+    <p class="card-desc">Desglose de la facturación estructurado por línea de negocio y tipo de producto.</p>
+    <div class="card-meta">
+      <div class="meta-row">
+        <span class="meta-label">Frecuencia</span>
+        <span class="meta-val">—</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Última actualización</span>
+        <span class="meta-val">01/03/2026</span>
+      </div>
+    </div>
+    <a class="btn-open" href="https://app.powerbi.com/view?r=eyJrIjoiYjE2OTI4MTktZWM0ZS00NTUzLTkyYWYtYTEzNGVlMTJmMThjIiwidCI6IjYxMzI5NWZkLTQzN2MtNDlhNi05YTM4LTMwN2I3YmM2ZmE1MiJ9" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
+  </div>
+  <div class="card" data-fuentes="mercado público" data-estado="activo" data-search="análisis compras ágiles detalle de compras ágiles clasificado por marca, etiqueta y producto para los años 2024 y 2025.">
+    <div class="card-top">
+      <div class="badges"><span class="badge" style="background:#fdf3e3;color:#7a4b0a">Mercado Público</span></div>
+      <span class="chip" style="background:#e4f2eb;color:#1a6b47">Activo</span>
+    </div>
+    <h3 class="card-name">Análisis Compras Ágiles</h3>
+    <p class="card-desc">Detalle de Compras Ágiles clasificado por marca, etiqueta y producto para los años 2024 y 2025.</p>
+    <div class="card-meta">
+      <div class="meta-row">
+        <span class="meta-label">Frecuencia</span>
+        <span class="meta-val">—</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Última actualización</span>
+        <span class="meta-val">01/03/2026</span>
+      </div>
+    </div>
+    <a class="btn-open" href="https://app.powerbi.com/view?r=eyJrIjoiNDM1NjgxMTAtNjYwNi00N2Y5LWJmZDMtZGE1YmM0Yjg4YzhjIiwidCI6IjYxMzI5NWZkLTQzN2MtNDlhNi05YTM4LTMwN2I3YmM2ZmE1MiJ9" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
+  </div>
+  <div class="card" data-fuentes="mercado público" data-estado="activo" data-search="licitaciones y ca (market share) detalle de licitaciones y compras ágiles durante el periodo 2024-2025, con foco en el tamaño del mercado.">
+    <div class="card-top">
+      <div class="badges"><span class="badge" style="background:#fdf3e3;color:#7a4b0a">Mercado Público</span></div>
+      <span class="chip" style="background:#e4f2eb;color:#1a6b47">Activo</span>
+    </div>
+    <h3 class="card-name">Licitaciones y CA (Market Share)</h3>
+    <p class="card-desc">Detalle de licitaciones y Compras Ágiles durante el periodo 2024-2025, con foco en el tamaño del mercado.</p>
+    <div class="card-meta">
+      <div class="meta-row">
+        <span class="meta-label">Frecuencia</span>
+        <span class="meta-val">—</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Última actualización</span>
+        <span class="meta-val">01/02/2026</span>
+      </div>
+    </div>
+    <a class="btn-open" href="https://app.powerbi.com/view?r=eyJrIjoiNTJlMTY5MzgtNjVjOS00ODFjLTgyZGEtODU5Nzc4MjE1NTJkIiwidCI6IjYxMzI5NWZkLTQzN2MtNDlhNi05YTM4LTMwN2I3YmM2ZmE1MiJ9" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
+  </div>
+  <div class="card" data-fuentes="mercado público" data-estado="activo" data-search="licitaciones y ca (detalle) análisis detallado de licitaciones y compras ágiles (2024-2025) con trazabilidad por empresa, línea de negocio y principales clientes.">
+    <div class="card-top">
+      <div class="badges"><span class="badge" style="background:#fdf3e3;color:#7a4b0a">Mercado Público</span></div>
+      <span class="chip" style="background:#e4f2eb;color:#1a6b47">Activo</span>
+    </div>
+    <h3 class="card-name">Licitaciones y CA (Detalle)</h3>
+    <p class="card-desc">Análisis detallado de licitaciones y Compras Ágiles (2024-2025) con trazabilidad por empresa, línea de negocio y principales clientes.</p>
+    <div class="card-meta">
+      <div class="meta-row">
+        <span class="meta-label">Frecuencia</span>
+        <span class="meta-val">—</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Última actualización</span>
+        <span class="meta-val">01/02/2026</span>
+      </div>
+    </div>
+    <a class="btn-open" href="https://app.powerbi.com/view?r=eyJrIjoiYzY2YzMxYTMtYjJmZS00YTZmLWE5OWUtYmYzZjExOGZiMmI3IiwidCI6IjYxMzI5NWZkLTQzN2MtNDlhNi05YTM4LTMwN2I3YmM2ZmE1MiJ9" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
+  </div>
+  <div class="card" data-fuentes="penta transaction" data-estado="activo" data-search="análisis de competencia | ecm : ic estudio de las importaciones realizadas por international clinics y ecm.">
+    <div class="card-top">
+      <div class="badges"><span class="badge" style="background:#eeeafe;color:#3c2eb5">PENTA Transaction</span></div>
+      <span class="chip" style="background:#e4f2eb;color:#1a6b47">Activo</span>
+    </div>
+    <h3 class="card-name">Análisis de Competencia | ECM : IC</h3>
+    <p class="card-desc">Estudio de las importaciones realizadas por International Clinics y ECM.</p>
+    <div class="card-meta">
+      <div class="meta-row">
+        <span class="meta-label">Frecuencia</span>
+        <span class="meta-val">—</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Última actualización</span>
+        <span class="meta-val">01/12/2025</span>
+      </div>
+    </div>
+    <a class="btn-open" href="https://app.powerbi.com/view?r=eyJrIjoiODM0ODhmZjEtN2ZlOS00OTg3LWE5MTEtNGE3MjQyMjZmM2E4IiwidCI6IjYxMzI5NWZkLTQzN2MtNDlhNi05YTM4LTMwN2I3YmM2ZmE1MiJ9" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
+  </div>
+    <p class="no-results" id="no-results">No se encontraron reportes con ese criterio de búsqueda.</p>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>Gemco Medical Solutions &nbsp;·&nbsp; Generado el 20/07/2026 10:52</p>
+</footer>
+
+<script>
+  function normalize(s) {
+    return String(s || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+  }
+
+  function applyFilter() {
+    const q   = normalize(document.getElementById("search").value);
+    const fnt = normalize(document.getElementById("sel-fuente").value);
+    const est = normalize(document.getElementById("sel-estado").value);
+
+    const cards = document.querySelectorAll(".card");
+    let visible = 0;
+
+    cards.forEach(function(card) {
+      const search  = normalize(card.dataset.search);
+      const fuentes = normalize(card.dataset.fuentes);
+      const estado  = normalize(card.dataset.estado);
+
+      const matchQ = !q   || search.includes(q);
+      const matchF = !fnt || fuentes.split(";").some(function(f) { return f.trim().includes(fnt); });
+      const matchE = !est || estado.includes(est);
+
+      if (matchQ && matchF && matchE) {
+        card.classList.remove("hidden");
+        visible++;
+      } else {
+        card.classList.add("hidden");
+      }
+    });
+
+    document.getElementById("no-results").style.display = visible === 0 ? "block" : "none";
+    document.getElementById("filter-count").textContent = visible + " de 10 reportes";
+  }
+</script>
+
+</body>
+</html>
