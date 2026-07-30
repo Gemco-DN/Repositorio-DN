@@ -35,6 +35,7 @@ import json
 import os
 from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import openpyxl
 
@@ -45,6 +46,17 @@ TEMPLATE_PATH = BASE / "panel_contratos_template.html"
 OUT_PATH = BASE / "panel_contratos_incardia.html"
 
 SP_FILE_URL_CONTRATOS = os.environ["SP_FILE_URL_CONTRATOS"]
+
+ZONA_CHILE = ZoneInfo("America/Santiago")
+
+MESES_ES_CORTOS = ["ene", "feb", "mar", "abr", "may", "jun",
+                    "jul", "ago", "sep", "oct", "nov", "dic"]
+
+
+def ahora_chile():
+    """Hora actual en Chile (naive, sin tzinfo). El runner de GitHub Actions
+    corre en UTC, por eso no alcanza con datetime.now()."""
+    return datetime.now(ZONA_CHILE).replace(tzinfo=None)
 
 # Orden y color ya definidos en el HTML original - no cambiar el orden,
 # el JS usa el mismo índice para COMP y COMP_COLORS.
@@ -98,7 +110,7 @@ def parse_excel():
     wb = openpyxl.load_workbook(excel_bytes, data_only=True)
     ws = encontrar_hoja_datos(wb)
 
-    hoy = datetime.now()
+    hoy = ahora_chile()
     registros = []
 
     for r in range(2, ws.max_row + 1):
@@ -169,6 +181,10 @@ def generar():
     nota_faltantes = f"{', '.join(faltantes)} sin contratos vigentes en esta corrida" if faltantes else ""
     footer_stats = f"{len(registros_limpios)} contratos &nbsp;&middot;&nbsp; {len(empresas_con_datos)} empresas monitoreadas"
     html = html.replace("__FOOTER_STATS__", footer_stats)
+
+    ahora = ahora_chile()
+    fecha_actualizacion = f"{ahora.day:02d} {MESES_ES_CORTOS[ahora.month - 1]} {ahora.year}, {ahora:%H:%M}"
+    html = html.replace("__FECHA_ACTUALIZACION__", fecha_actualizacion)
 
     OUT_PATH.parent.mkdir(exist_ok=True)
     OUT_PATH.write_text(html, encoding="utf-8")

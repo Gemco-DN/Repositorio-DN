@@ -16,10 +16,19 @@ Uso:
 import base64
 from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import os
 
 import pandas as pd
+
+ZONA_CHILE = ZoneInfo("America/Santiago")
+
+
+def ahora_chile():
+    """Hora actual en Chile (naive, sin tzinfo). El runner de GitHub Actions
+    corre en UTC, por eso no alcanza con datetime.now()."""
+    return datetime.now(ZONA_CHILE).replace(tzinfo=None)
 
 import sharepoint
 
@@ -233,7 +242,7 @@ def generate_html() -> str:
         '<span class="logo-fallback">Gemco Medical Solutions</span>'
     )
 
-    gen_date = datetime.now().strftime("%d/%m/%Y %H:%M")
+    gen_date = ahora_chile().strftime("%d/%m/%Y %H:%M")
 
     return f'''<!DOCTYPE html>
 <html lang="es">
@@ -653,7 +662,7 @@ def generate_html() -> str:
 def build():
     html = generate_html()
     OUTPUT_HTML.write_text(html, encoding="utf-8")
-    ts = datetime.now().strftime("%d/%m/%Y %H:%M")
+    ts = ahora_chile().strftime("%d/%m/%Y %H:%M")
     print(f"[OK] HTML regenerado — {ts}")
 
     import generar_contratos_incardia as gci
