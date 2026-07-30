@@ -1,0 +1,53 @@
+name: Actualizar Repositorio de Reportes
+
+on:
+  schedule:
+    # 11:15 UTC = 07:15 Chile en horario de invierno (UTC-4).
+    # Chile usa horario de verano (UTC-3) ~sept a abril: en esas fechas
+    # esto corre a las 08:15 Chile en vez de 07:15.
+    #
+    # Ojo: el trigger "schedule" de GitHub Actions no garantiza horario
+    # exacto — se ha visto atrasarse varias horas en otros repos de esta
+    # organización. Si necesitas precisión, usa "Run workflow" manual o
+    # un disparador externo (Power Automate / cron externo llamando a la
+    # API de GitHub).
+    - cron: "15 11 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repo
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Generar HTML (Repositorio + Contratos Incardia)
+        env:
+          SP_TENANT_ID: ${{ secrets.SP_TENANT_ID }}
+          SP_CLIENT_ID: ${{ secrets.SP_CLIENT_ID }}
+          SP_CLIENT_SECRET: ${{ secrets.SP_CLIENT_SECRET }}
+          SP_FILE_URL_REPOSITORIO: ${{ secrets.SP_FILE_URL_REPOSITORIO }}
+          SP_FILE_URL_CONTRATOS: ${{ secrets.SP_FILE_URL_CONTRATOS }}
+        run: python generar_repositorio.py
+
+      - name: Configurar identidad de git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Publicar cambios
+        run: |
+          git add index.html panel_contratos_incardia.html
+          git commit -m "Actualizacion repositorio $(date '+%Y-%m-%d %H:%M')" || echo "Sin cambios que subir"
+          git push
