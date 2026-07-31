@@ -336,10 +336,10 @@
   <span class="hero-eyebrow">Gemco Medical Solutions</span>
   <h1>Repositorio de Reportes</h1>
   <div class="stats">
-    <span class="stat"><span class="stat-num">10</span><span class="stat-label">Reportes</span></span>
-    <span class="stat"><span class="stat-num">10</span><span class="stat-label">Activos</span></span>
+    <span class="stat"><span class="stat-num">11</span><span class="stat-label">Reportes</span></span>
+    <span class="stat"><span class="stat-num">11</span><span class="stat-label">Activos</span></span>
     <span class="stat"><span class="stat-num">0</span><span class="stat-label">En revisión</span></span>
-    <span class="stat"><span class="stat-num">7</span><span class="stat-label">Fuentes</span></span>
+    <span class="stat"><span class="stat-num">8</span><span class="stat-label">Fuentes</span></span>
   </div>
 </section>
 
@@ -348,6 +348,7 @@
   <select id="sel-fuente" onchange="applyFilter()">
     <option value="">Todas las fuentes</option>
     <option value="falconsoft">Falconsoft</option>
+        <option value="github">Github</option>
         <option value="inventario">Inventario</option>
         <option value="mercado público">Mercado Público</option>
         <option value="penta transaction">PENTA Transaction</option>
@@ -359,11 +360,30 @@
     <option value="">Todos los estados</option>
     <option value="activo">Activo</option>
   </select>
-  <span class="filter-count" id="filter-count">10 de 10 reportes</span>
+  <span class="filter-count" id="filter-count">11 de 11 reportes</span>
 </div>
 
 <div class="grid-wrapper">
   <div class="grid" id="grid">
+  <div class="card" data-fuentes="github" data-estado="activo" data-search="panel de licitaciones panel con el detalle de licitaciones proximas">
+    <div class="card-top">
+      <div class="badges"><span class="badge" style="background:#f0f0f0;color:#555555">Github</span></div>
+      <span class="chip" style="background:#e4f2eb;color:#1a6b47">Activo</span>
+    </div>
+    <h3 class="card-name">Panel de Licitaciones</h3>
+    <p class="card-desc">Panel con el detalle de Licitaciones Proximas</p>
+    <div class="card-meta">
+      <div class="meta-row">
+        <span class="meta-label">Frecuencia</span>
+        <span class="meta-val">Diario</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Última actualización</span>
+        <span class="meta-val">—</span>
+      </div>
+    </div>
+    <a class="btn-open" href="https://gemco-dn.github.io/Panel-Licitaciones/" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
+  </div>
   <div class="card" data-fuentes="sap;salesforce;pipeline;inventario" data-estado="activo" data-search="reporte comercial monitoreo de facturación, desempeño de ventas con ppto, detalle de ts (servicio técnico), pipeline e inventario.">
     <div class="card-top">
       <div class="badges"><span class="badge" style="background:#e4eef8;color:#1a4080">SAP</span><span class="badge" style="background:#e3f5ee;color:#1a5c3a">SalesForce</span><span class="badge" style="background:#fce9f2;color:#7a1f50">Pipeline</span><span class="badge" style="background:#eaf5e4;color:#2a5c1a">Inventario</span></div>
@@ -421,25 +441,6 @@
     </div>
     <a class="btn-open" href="panel_contratos_incardia.html" target="_blank" rel="noopener noreferrer">Abrir reporte ↗</a>
   </div>
-  <div class="card" data-fuentes="mercado público" data-estado="activo" data-search="análisis competidores análisis de todas las oc por línea de negocio, con especificación por producto y cálculo del tamaño del mercado.">
-    <div class="card-top">
-      <div class="badges"><span class="badge" style="background:#fdf3e3;color:#7a4b0a">Mercado Público</span></div>
-      <span class="chip" style="background:#e4f2eb;color:#1a6b47">Activo</span>
-    </div>
-    <h3 class="card-name">Análisis Competidores</h3>
-    <p class="card-desc">Análisis de todas las OC por línea de negocio, con especificación por producto y cálculo del tamaño del mercado.</p>
-    <div class="card-meta">
-      <div class="meta-row">
-        <span class="meta-label">Frecuencia</span>
-        <span class="meta-val">—</span>
-      </div>
-      <div class="meta-row">
-        <span class="meta-label">Última actualización</span>
-        <span class="meta-val">05/06/2026</span>
-      </div>
-    </div>
-    <a class="btn-open" href="https://app.powerbi.com/view?r=eyJrIjoiNzI4MDgxNzktYTcxNi00YTAzLWI5YjctY2Y3ZDMzNzMyNjAyIiwidCI6IjYxMzI5NWZkLTQzN2MtNDlhNi05YTM4LTMwN2I3YmM2ZmE1MiJ9" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
-  </div>
   <div class="card" data-fuentes="sap" data-estado="activo" data-search="facturaciones por línea de negocio desglose de la facturación estructurado por línea de negocio y tipo de producto.">
     <div class="card-top">
       <div class="badges"><span class="badge" style="background:#e4eef8;color:#1a4080">SAP</span></div>
@@ -478,13 +479,13 @@
     </div>
     <a class="btn-open" href="https://app.powerbi.com/view?r=eyJrIjoiNDM1NjgxMTAtNjYwNi00N2Y5LWJmZDMtZGE1YmM0Yjg4YzhjIiwidCI6IjYxMzI5NWZkLTQzN2MtNDlhNi05YTM4LTMwN2I3YmM2ZmE1MiJ9" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
   </div>
-  <div class="card" data-fuentes="mercado público" data-estado="activo" data-search="licitaciones y ca (market share) detalle de licitaciones y compras ágiles durante el periodo 2024-2025, con foco en el tamaño del mercado.">
+  <div class="card" data-fuentes="mercado público" data-estado="activo" data-search="análisis competidores análisis de todas las oc por línea de negocio, con especificación por producto y cálculo del tamaño del mercado.">
     <div class="card-top">
       <div class="badges"><span class="badge" style="background:#fdf3e3;color:#7a4b0a">Mercado Público</span></div>
       <span class="chip" style="background:#e4f2eb;color:#1a6b47">Activo</span>
     </div>
-    <h3 class="card-name">Licitaciones y CA (Market Share)</h3>
-    <p class="card-desc">Detalle de licitaciones y Compras Ágiles durante el periodo 2024-2025, con foco en el tamaño del mercado.</p>
+    <h3 class="card-name">Análisis Competidores</h3>
+    <p class="card-desc">Análisis de todas las OC por línea de negocio, con especificación por producto y cálculo del tamaño del mercado.</p>
     <div class="card-meta">
       <div class="meta-row">
         <span class="meta-label">Frecuencia</span>
@@ -492,10 +493,10 @@
       </div>
       <div class="meta-row">
         <span class="meta-label">Última actualización</span>
-        <span class="meta-val">01/02/2026</span>
+        <span class="meta-val">05/06/2026</span>
       </div>
     </div>
-    <a class="btn-open" href="https://app.powerbi.com/view?r=eyJrIjoiNTJlMTY5MzgtNjVjOS00ODFjLTgyZGEtODU5Nzc4MjE1NTJkIiwidCI6IjYxMzI5NWZkLTQzN2MtNDlhNi05YTM4LTMwN2I3YmM2ZmE1MiJ9" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
+    <a class="btn-open" href="https://app.powerbi.com/view?r=eyJrIjoiNzI4MDgxNzktYTcxNi00YTAzLWI5YjctY2Y3ZDMzNzMyNjAyIiwidCI6IjYxMzI5NWZkLTQzN2MtNDlhNi05YTM4LTMwN2I3YmM2ZmE1MiJ9" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
   </div>
   <div class="card" data-fuentes="mercado público" data-estado="activo" data-search="desempeño compras ágiles evaluación del desempeño de los ejecutivos en el módulo de compras ágiles (tasas de participación, tiempos de respuesta, etc.).">
     <div class="card-top">
@@ -535,6 +536,25 @@
     </div>
     <a class="btn-open" href="https://app.powerbi.com/view?r=eyJrIjoiYzY2YzMxYTMtYjJmZS00YTZmLWE5OWUtYmYzZjExOGZiMmI3IiwidCI6IjYxMzI5NWZkLTQzN2MtNDlhNi05YTM4LTMwN2I3YmM2ZmE1MiJ9" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
   </div>
+  <div class="card" data-fuentes="mercado público" data-estado="activo" data-search="licitaciones y ca (market share) detalle de licitaciones y compras ágiles durante el periodo 2024-2025, con foco en el tamaño del mercado.">
+    <div class="card-top">
+      <div class="badges"><span class="badge" style="background:#fdf3e3;color:#7a4b0a">Mercado Público</span></div>
+      <span class="chip" style="background:#e4f2eb;color:#1a6b47">Activo</span>
+    </div>
+    <h3 class="card-name">Licitaciones y CA (Market Share)</h3>
+    <p class="card-desc">Detalle de licitaciones y Compras Ágiles durante el periodo 2024-2025, con foco en el tamaño del mercado.</p>
+    <div class="card-meta">
+      <div class="meta-row">
+        <span class="meta-label">Frecuencia</span>
+        <span class="meta-val">—</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Última actualización</span>
+        <span class="meta-val">01/02/2026</span>
+      </div>
+    </div>
+    <a class="btn-open" href="https://app.powerbi.com/view?r=eyJrIjoiNTJlMTY5MzgtNjVjOS00ODFjLTgyZGEtODU5Nzc4MjE1NTJkIiwidCI6IjYxMzI5NWZkLTQzN2MtNDlhNi05YTM4LTMwN2I3YmM2ZmE1MiJ9" target="_blank" rel="noopener noreferrer">Abrir en Power BI ↗</a>
+  </div>
   <div class="card" data-fuentes="penta transaction" data-estado="activo" data-search="análisis de competencia | ecm : ic estudio de las importaciones realizadas por international clinics y ecm.">
     <div class="card-top">
       <div class="badges"><span class="badge" style="background:#eeeafe;color:#3c2eb5">PENTA Transaction</span></div>
@@ -559,7 +579,7 @@
 </div>
 
 <footer class="footer">
-  <p>Gemco Medical Solutions &nbsp;·&nbsp; Generado el 30/07/2026 10:38</p>
+  <p>Gemco Medical Solutions &nbsp;·&nbsp; Generado el 31/07/2026 13:07</p>
 </footer>
 
 <script>
@@ -597,7 +617,7 @@
     });
 
     document.getElementById("no-results").style.display = visible === 0 ? "block" : "none";
-    document.getElementById("filter-count").textContent = visible + " de 10 reportes";
+    document.getElementById("filter-count").textContent = visible + " de 11 reportes";
   }
 </script>
 
